@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     private DataSource dataSource;
@@ -40,14 +42,14 @@ public class SecurityConfig {
 
     @Bean
     JdbcUserDetailsManager users(DataSource dataSource, PasswordEncoder encoder) {
-        String hashedPassword = encoder.encode("phil");
+//        String hashedPassword = encoder.encode("phil");
         var manager = new JdbcUserDetailsManager(dataSource);
-        var user = User.builder()
-                .username("phil")
-                .password(hashedPassword)
-                .roles("admin")
-                .build();
-        manager.createUser(user);
+//        var user = User.builder()
+//                .username("phil")
+//                .password(hashedPassword)
+//                .roles("admin")
+//                .build();
+//        manager.createUser(user);
 
         return manager;
     }
@@ -70,12 +72,13 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .headers(header -> header.frameOptions(customizer -> customizer.sameOrigin()))
+//                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/h2-console/**").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .headers(header -> header.frameOptions(customizer -> customizer.sameOrigin()))
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
