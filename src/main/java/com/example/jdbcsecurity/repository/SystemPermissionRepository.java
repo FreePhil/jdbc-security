@@ -8,6 +8,9 @@ import java.util.Collection;
 
 public interface SystemPermissionRepository extends CrudRepository<SystemPermission, Long> {
 
+    /**
+     *
+     */
     @Query("select * from system_permissions where username = :username and permission_tag = :permissionTag")
     Collection<SystemPermission> findByUsernameAAndPermissionTag(String username, String permissionTag);
 }

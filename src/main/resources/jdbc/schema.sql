@@ -20,3 +20,13 @@ create table system_permissions
     permission_tag varchar(128)         not null,
     has_permission tinyint(1) default 1 not null
 );
+
+create table post
+(
+    id bigint auto_increment primary key,
+    version int,
+    title varchar(255) not null,
+    content text not null,
+    publish_on timestamp not null,
+    updated_on timestamp
+);
