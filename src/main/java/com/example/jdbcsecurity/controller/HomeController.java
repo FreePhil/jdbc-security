@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
@@ -21,6 +22,12 @@ public class HomeController {
     public String name() {
         logger.debug("enter /");
         return "Hello, World";
+    }
+
+    @PreAuthorize("hasRole('ROLE_admin')")
+    @GetMapping("/signout")
+    public ModelAndView logout() {
+        return new ModelAndView("redirect:/logout");
     }
 
     @PreAuthorize("hasRole('ROLE_admin') and @systemPermissionEvaluator.hasPermission('home_admin')")

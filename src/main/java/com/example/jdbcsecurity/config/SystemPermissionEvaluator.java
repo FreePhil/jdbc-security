@@ -5,6 +5,7 @@ import com.example.jdbcsecurity.repository.SystemPermissionRepository;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,7 @@ public class SystemPermissionEvaluator {
                 return permission.orElseThrow().getHasPermission();
             }
         }
-        return true;
+
+        return false;
     }
 }

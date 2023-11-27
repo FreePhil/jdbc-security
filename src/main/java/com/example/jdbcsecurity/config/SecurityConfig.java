@@ -78,7 +78,10 @@ public class SecurityConfig {
 //                        .anyRequest().authenticated()
 //                )
 //                .headers(header -> header.frameOptions(customizer -> customizer.sameOrigin()))
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
