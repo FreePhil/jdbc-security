@@ -18,9 +18,14 @@ public class HomeController {
     }
 
     @PreAuthorize("hasRole('ROLE_admin') and @systemPermissionEvaluator.hasPermission('home_admin')")
-//    @Secured("ROLE_admin")
     @GetMapping("/admin")
     public String admin() {
         return "Hello, Admin";
+    }
+
+    @PreAuthorize("hasRole('ROLE_admin') and @systemPermissionEvaluator.hasPermission('home_misc')")
+    @GetMapping("/misc")
+    public String misc() {
+        return "Hello, Misc";
     }
 }
