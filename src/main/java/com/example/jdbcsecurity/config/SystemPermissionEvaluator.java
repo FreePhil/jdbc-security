@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 @Component
 public class SystemPermissionEvaluator {
@@ -21,20 +22,20 @@ public class SystemPermissionEvaluator {
     }
 
     public boolean hasPermission(String permissionTag) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+        return authentication.map(auth -> {
+            var permission = permissionRepository.findOneByUsernameAAndPermissionTag(auth.getName(), permissionTag);
+            return permission.map(p -> p.getHasPermission()).orElse(false);
+        }).orElse(false);
 
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            var userDetails = (UserDetails) authentication.getPrincipal();
-            var username = userDetails.getUsername();
-            var permissions = permissionRepository.findByUsernameAAndPermissionTag(username, permissionTag);
-
-
-            if (permissions.size() == 1) {
-                var permission = permissions.stream().findFirst();
-                return permission.orElseThrow().getHasPermission();
-            }
-        }
-
-        return false;
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null) {
+//            var username = authentication.getName();
+//            var permission = permissionRepository.findOneByUsernameAAndPermissionTag(username, permissionTag);
+//            if (permission.isPresent()) {
+//                return permission.get().getHasPermission();
+//            }
+//        }
+//        return false;
     }
 }

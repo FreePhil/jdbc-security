@@ -5,12 +5,13 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface SystemPermissionRepository extends CrudRepository<SystemPermission, Long> {
 
     /**
      *
      */
-    @Query("select * from system_permissions where username = :username and permission_tag = :permissionTag")
-    Collection<SystemPermission> findByUsernameAAndPermissionTag(String username, String permissionTag);
+    @Query("select * from system_permissions where username = :username and permission_tag = :permissionTag limit 1")
+    Optional<SystemPermission> findOneByUsernameAAndPermissionTag(String username, String permissionTag);
 }

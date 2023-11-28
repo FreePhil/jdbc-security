@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class Post {
 
+
     @Id private Integer id;
     private String title;
     private String content;
