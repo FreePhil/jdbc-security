@@ -16,17 +16,40 @@ create unique index ix_auth_username on authorities (username, authority);
 create table system_permissions
 (
     id             bigint auto_increment primary key,
-    username       varchar(128)         not null,
-    permission_tag varchar(128)         not null,
+    username       varchar(128) not null,
+    permission_tag varchar(128) not null,
     has_permission tinyint(1) default 1 not null
 );
 
 create table post
 (
-    id bigint auto_increment primary key,
-    version int,
-    title varchar(255) not null,
-    content text not null,
-    publish_on timestamp not null,
-    updated_on timestamp
+    id           bigint auto_increment primary key,
+    version      int,
+    title        varchar(255) not null,
+    content      text         not null,
+    published_on timestamp    not null,
+    updated_on   timestamp,
+    author       int,
+    foreign key (author) references author (id)
 );
+
+create table author
+(
+    id         int auto_increment primary key,
+    last_name  varchar(80)  not null,
+    first_name varchar(255) not null,
+    username   varchar(100) not null,
+    email      varchar(127) not null
+);
+
+create table comment
+(
+    post         int          not null,
+    name         varchar(127) not null,
+    content      text         not null,
+    published_on timestamp    not null,
+    updated_on   timestamp,
+
+    foreign key (post) references post (id)
+)
+

@@ -1,9 +1,12 @@
 package com.example.jdbcsecurity.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Post {
 
@@ -11,14 +14,16 @@ public class Post {
     @Id private Integer id;
     private String title;
     private String content;
-    private LocalDateTime pubblishedOn;
+    private LocalDateTime publishedOn;
     private LocalDateTime updatedOn;
+    private AggregateReference<Author, Integer> author;
+    private Set<Comment> comments = new HashSet<>();
 
-    public Post(String title, String content) {
+    public Post(String title, String content, AggregateReference<Author, Integer> author ) {
         this.title = title;
         this.content = content;
-
-        this.pubblishedOn = LocalDateTime.now();
+        this.author = author;
+        this.publishedOn = LocalDateTime.now();
     }
 
     public Integer getId() {
@@ -45,12 +50,12 @@ public class Post {
         this.content = content;
     }
 
-    public LocalDateTime getPubblishedOn() {
-        return pubblishedOn;
+    public LocalDateTime getPublishedOn() {
+        return publishedOn;
     }
 
-    public void setPubblishedOn(LocalDateTime pubblishedOn) {
-        this.pubblishedOn = pubblishedOn;
+    public void setPublishedOn(LocalDateTime publishedOn) {
+        this.publishedOn = publishedOn;
     }
 
     public LocalDateTime getUpdatedOn() {
@@ -61,13 +66,34 @@ public class Post {
         this.updatedOn = updatedOn;
     }
 
+    public AggregateReference<Author, Integer> getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AggregateReference<Author, Integer> author) {
+        this.author = author;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.post = this;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", pubblishedOn=" + pubblishedOn +
+                ", publishedOn=" + publishedOn +
                 ", updatedOn=" + updatedOn +
                 '}';
     }
