@@ -22,6 +22,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java:8.0.33'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.opencsv:opencsv:5.9'
 }
 
 tasks.named('test') {
