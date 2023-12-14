@@ -1,11 +1,13 @@
 package com.example.jdbcsecurity.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
 
 public class Comment {
 
+    @Id private Integer id;
     private String name;
     private String content;
     private LocalDateTime publishedOn;
@@ -17,6 +19,14 @@ public class Comment {
         this.name = name;
         this.content = content;
         this.publishedOn = LocalDateTime.now();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,6 +59,14 @@ public class Comment {
 
     public void setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override

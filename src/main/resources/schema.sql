@@ -45,6 +45,7 @@ create table if not exists post
 
 create table if not exists comment
 (
+    id          int auto_increment primary key,
     post         bigint       not null,
     name         varchar(127) not null,
     content      text         not null,

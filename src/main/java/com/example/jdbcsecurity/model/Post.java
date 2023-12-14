@@ -78,6 +78,8 @@ public class Post {
         return comments;
     }
 
+
+
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }

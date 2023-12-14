@@ -1,11 +1,14 @@
 package com.example.jdbcsecurity;
 
+import com.example.jdbcsecurity.controller.HomeController;
 import com.example.jdbcsecurity.model.Comment;
 import com.example.jdbcsecurity.model.Post;
 import com.example.jdbcsecurity.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
@@ -16,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class JdbcSecurityApplicationTests {
+
+    Logger logger = LoggerFactory.getLogger(JdbcSecurityApplicationTests.class);
 
     @Autowired
     private PostRepository posts;
@@ -72,6 +77,23 @@ class JdbcSecurityApplicationTests {
 
         // clean up
         template.delete(post);
+    }
+
+    @Test
+    void testUpdateComment() {
+        Post post = new Post("title01", "comment01", null);
+        post.addComment(new Comment("commenter01", "comment-content01"));
+        posts.save(post);
+
+        var comment = post.getComments().stream().findFirst().orElseThrow();
+        posts.updateComment(comment.getId(), "abc", comment.getContent());
+        logger.info("saved: comment id {}", comment.getId());
+
+
+        Post updatedPost = posts.findById(post.getId()).orElseThrow();
+        var updateComment = updatedPost.getComments().stream().findFirst().orElseThrow();
+        logger.info("after: comment id {}", updateComment.getId());
+        assertThat(updateComment.getName()).isEqualTo("abc");
     }
 
 }

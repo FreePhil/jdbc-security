@@ -14,7 +14,7 @@ INSERT INTO author (id, last_name, first_name, username, email) VALUES (1, 'tom'
 INSERT INTO post (id, version, title, content, published_on, updated_on, author) VALUES (1, null, 'post01', 'content01', '2023-11-28 22:16:28', null, 1);
 INSERT INTO post (id, version, title, content, published_on, updated_on, author) VALUES (2, null, 'post02', 'content02', '2023-11-28 22:16:56', null, 1);
 
-INSERT INTO comment (post, name, content, published_on, updated_on) VALUES (1, 'c1', 'content01', '2023-11-28 22:17:38', null);
-INSERT INTO comment (post, name, content, published_on, updated_on) VALUES (1, 'c2', 'content02', '2023-11-28 22:17:55', null);
-INSERT INTO comment (post, name, content, published_on, updated_on) VALUES (2, 'c3', 'content03', '2023-11-28 22:18:24', null);
-INSERT INTO comment (post, name, content, published_on, updated_on) VALUES (2, 'c4', 'content04', '2023-11-28 22:18:21', null);
+INSERT INTO comment (id, post, name, content, published_on, updated_on) VALUES (1, 1, 'c1', 'content01', '2023-11-28 22:17:38', null);
+INSERT INTO comment (id, post, name, content, published_on, updated_on) VALUES (2, 1, 'c2', 'content02', '2023-11-28 22:17:55', null);
+INSERT INTO comment (id, post, name, content, published_on, updated_on) VALUES (3, 2, 'c3', 'content03', '2023-11-28 22:18:24', null);
+INSERT INTO comment (id, post, name, content, published_on, updated_on) VALUES (4, 2, 'c4', 'content04', '2023-11-28 22:18:21', null);
